@@ -1,0 +1,16 @@
+customer_id,age,gender,location,signup_date,total_spent,orders_count
+1,25,M,North America,2023-01-15,1250,5
+2,34,F,Europe,2023-02-20,2100,8
+3,29,M,Asia,2023-03-10,890,3
+4,42,F,North America,2023-01-25,3200,12
+5,31,M,Europe,2023-04-05,1800,7
+6,28,F,Asia,2023-02-28,950,4
+7,36,M,North America,2023-03-15,2700,10
+8,27,F,Europe,2023-01-30,1400,6
+9,33,M,Asia,2023-04-12,1100,5
+10,39,F,North America,2023-02-18,2900,11
+11,26,M,Europe,2023-03-22,1600,7
+12,32,F,Asia,2023-01-08,750,2
+13,45,M,North America,2023-04-01,3500,13
+14,30,F,Europe,2023-02-14,2200,9
+15,35,M,Asia,2023-03-28,1300,6

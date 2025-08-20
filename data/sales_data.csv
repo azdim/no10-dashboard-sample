@@ -1,0 +1,19 @@
+date,region,product,revenue,units_sold
+2024-01-01,North America,Product A,15000,150
+2024-01-01,Europe,Product A,12000,120
+2024-01-01,Asia,Product A,8000,80
+2024-01-01,North America,Product B,20000,100
+2024-01-01,Europe,Product B,18000,90
+2024-01-01,Asia,Product B,12000,60
+2024-02-01,North America,Product A,16500,165
+2024-02-01,Europe,Product A,13200,132
+2024-02-01,Asia,Product A,8800,88
+2024-02-01,North America,Product B,22000,110
+2024-02-01,Europe,Product B,19800,99
+2024-02-01,Asia,Product B,13200,66
+2024-03-01,North America,Product A,18000,180
+2024-03-01,Europe,Product A,14400,144
+2024-03-01,Asia,Product A,9600,96
+2024-03-01,North America,Product B,24000,120
+2024-03-01,Europe,Product B,21600,108
+2024-03-01,Asia,Product B,14400,72
