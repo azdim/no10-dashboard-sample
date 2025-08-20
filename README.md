@@ -1,6 +1,6 @@
 # Analytics Platform Sample
 
-Sample Plotly Dash application with PostgreSQL authentication and modular dashboard architecture.
+Sample dashboard platform built with Plotly Dash.
 
 ## Quick Start
 
