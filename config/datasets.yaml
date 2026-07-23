@@ -1,0 +1,13 @@
+# Dataset catalogue — local CSV for DATA_SOURCE=local, R2 keys for DATA_SOURCE=r2.
+datasets:
+  - id: customer_data
+    local_path: customer_data.csv
+    r2_key: curated/customer/customer_data.csv
+
+  - id: sales_data
+    local_path: sales_data.csv
+    r2_key: curated/sales/sales_data.csv
+
+  - id: financial_data
+    local_path: financial_data.csv
+    r2_key: curated/financial/financial_data.csv

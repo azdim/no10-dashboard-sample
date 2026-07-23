@@ -1,0 +1,45 @@
+:root {
+  --ink: #1a2332;
+  --muted: #5c6675;
+  --accent: #1f4f6b;
+  --surface: #ffffff;
+  --page: #f6f3ee;
+  --border: #d9d2c6;
+  --background: var(--page);
+  --foreground: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--foreground);
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, #e8eef3 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 0%, #efe8dc 0%, transparent 50%),
+    var(--page);
+  font-family: var(--font-sans), "IBM Plex Sans", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), "Source Serif 4", Georgia, serif;
+}

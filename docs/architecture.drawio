@@ -1,0 +1,283 @@
+<mxfile host="app.diagrams.net" agent="Cursor" version="24.7.8" type="device">
+  <diagram id="final-arch" name="Target Architecture">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Analytics Platform — Target Architecture&#xa;Vercel · Clerk · Cloudflare R2 (UK-leaning)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="520" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ========== ACTORS ========== -->
+        <mxCell id="actors" value="Actors" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=32;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="gov-users" value="Government Users&#xa;(~100 daily)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0;" vertex="1" parent="actors">
+          <mxGeometry y="32" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="data-scientists" value="Data Scientists&#xa;(~20 × ≥5 dashboards)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="actors">
+          <mxGeometry y="112" width="200" height="88" as="geometry" />
+        </mxCell>
+
+        <!-- ========== CLERK ========== -->
+        <mxCell id="clerk-box" value="Clerk — Identity" style="swimlane;fontStyle=1;startSize=32;collapsible=0;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="90" width="220" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="clerk-authn" value="AuthN&#xa;SSO / email + MFA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5e6f0;strokeColor=#996185;" vertex="1" parent="clerk-box">
+          <mxGeometry x="15" y="45" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="clerk-authz" value="AuthZ&#xa;Orgs · Roles · metadata&#xa;→ dashboard entitlements" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5e6f0;strokeColor=#996185;" vertex="1" parent="clerk-box">
+          <mxGeometry x="15" y="120" width="190" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ========== VERCEL ========== -->
+        <mxCell id="vercel-box" value="Vercel — Hosting (London lhr1 when available)" style="swimlane;fontStyle=1;startSize=36;collapsible=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="900" height="320" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge-mw" value="Edge / Middleware&#xa;Clerk session check&#xa;Security headers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="vercel-box">
+          <mxGeometry x="20" y="55" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="portal" value="Next.js Portal&#xa;Unified catalogue UI&#xa;RBAC-filtered nav" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="vercel-box">
+          <mxGeometry x="210" y="55" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="api-routes" value="API Routes&#xa;Presigned R2 URLs&#xa;Schema validation&#xa;Access audit logs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;" vertex="1" parent="vercel-box">
+          <mxGeometry x="420" y="50" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="data-client" value="data_client (lazy)&#xa;local CSV in dev&#xa;R2 fetch in prod&#xa;per-dashboard only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d0e6c8;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="vercel-box">
+          <mxGeometry x="630" y="50" width="240" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dash-label" value="Dashboard route modules (Plotly.js / React) — independent ownership" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=2;fontSize=11;fontColor=#2e7d32;" vertex="1" parent="vercel-box">
+          <mxGeometry x="20" y="160" width="480" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dash-a" value="Dashboard A&#xa;/customer-analytics&#xa;role: customer_analytics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#82b366;" vertex="1" parent="vercel-box">
+          <mxGeometry x="20" y="195" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dash-b" value="Dashboard B&#xa;/sales-dashboard&#xa;role: sales_dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#82b366;" vertex="1" parent="vercel-box">
+          <mxGeometry x="250" y="195" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="dash-n" value="Dashboard N&#xa;/…&#xa;role: …" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#82b366;" vertex="1" parent="vercel-box">
+          <mxGeometry x="480" y="195" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="manifest" value="Dataset manifest&#xa;dataset_id → R2 key&#xa;(Git or config)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#82b366;dashed=1;" vertex="1" parent="vercel-box">
+          <mxGeometry x="710" y="195" width="160" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ========== R2 ========== -->
+        <mxCell id="r2-box" value="Cloudflare R2 — Object Store (EU jurisdiction)" style="swimlane;fontStyle=1;startSize=36;collapsible=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="340" width="280" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-landing" value="landing/&#xa;Presigned uploads&#xa;(unvalidated)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#d79b00;" vertex="1" parent="r2-box">
+          <mxGeometry x="25" y="55" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-arrow" value="↓ schema validation promote ↓" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#8a6d3b;" vertex="1" parent="r2-box">
+          <mxGeometry x="25" y="130" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-curated" value="curated/&#xa;Private objects&#xa;per-dashboard prefixes&#xa;versioned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="r2-box">
+          <mxGeometry x="25" y="170" width="230" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ========== CI / DX ========== -->
+        <mxCell id="cicd-box" value="CI/CD &amp; Developer Experience" style="swimlane;fontStyle=1;startSize=32;collapsible=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="720" width="1240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="github" value="GitHub&#xa;Portal + dashboard modules&#xa;(mono or multi-repo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="cicd-box">
+          <mxGeometry x="30" y="50" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="vercel-deploy" value="Vercel Git Integration&#xa;PR → Preview deploy&#xa;main → Production" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="cicd-box">
+          <mxGeometry x="300" y="50" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="local-dx" value="Local DX&#xa;Template + sample CSVs&#xa;Same dataset_id contract" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="cicd-box">
+          <mxGeometry x="570" y="50" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="secrets" value="Secrets&#xa;Vercel env: Clerk + R2&#xa;Server-only credentials&#xa;Presigned URLs to clients" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="cicd-box">
+          <mxGeometry x="840" y="50" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="no-email" value="No email CSV&#xa;No manual monolith merge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=2;" vertex="1" parent="cicd-box">
+          <mxGeometry x="1090" y="50" width="120" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ========== EDGES: Users → system ========== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;endArrow=block;endFill=1;" edge="1" parent="1" source="gov-users" target="edge-mw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="HTTPS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#6c8ebf;" vertex="1" connectable="0" parent="e1">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#996185;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="edge-mw" target="clerk-authn">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="310" />
+              <mxPoint x="430" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2l" value="session / MFA" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#996185;" vertex="1" connectable="0" parent="e2">
+          <mxGeometry x="-0.2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#996185;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="portal" target="clerk-authz">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="340" y="310" />
+              <mxPoint x="430" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3l" value="roles" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#996185;" vertex="1" connectable="0" parent="e3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Internal Vercel flows -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="edge-mw" target="portal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="portal" target="api-routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="portal" target="dash-a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="portal" target="dash-b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="portal" target="dash-n">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;endArrow=block;endFill=1;" edge="1" parent="1" source="data-client" target="r2-curated">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9l" value="lazy GET&#xa;(presigned / server)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#8a6d3b;" vertex="1" connectable="0" parent="e9">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="dash-a" target="data-client">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="560" />
+              <mxPoint x="790" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="api-routes" target="data-client">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d79b00;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="manifest" target="data-client">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Data scientist flows -->
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;endArrow=block;endFill=1;" edge="1" parent="1" source="data-scientists" target="github">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="700" />
+              <mxPoint x="180" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13l" value="PR code" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#8a6d3b;" vertex="1" connectable="0" parent="e13">
+          <mxGeometry x="-0.2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#82b366;endArrow=block;endFill=1;" edge="1" parent="1" source="github" target="vercel-deploy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;endArrow=block;endFill=1;" edge="1" parent="1" source="data-scientists" target="api-routes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="220" />
+              <mxPoint x="280" y="280" />
+              <mxPoint x="550" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15l" value="authenticated upload&#xa;(presigned PUT)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#8a6d3b;" vertex="1" connectable="0" parent="e15">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;endArrow=block;endFill=1;" edge="1" parent="1" source="api-routes" target="r2-landing">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="320" />
+              <mxPoint x="1140" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16l" value="validate → promote" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#8a6d3b;" vertex="1" connectable="0" parent="e16">
+          <mxGeometry x="0.2" relative="1" as="geometry">
+            <mxPoint y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#d6b656;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="data-scientists" target="local-dx">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="700" />
+              <mxPoint x="40" y="815" />
+              <mxPoint x="680" y="815" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend" value="Legend" style="swimlane;fontStyle=1;startSize=28;collapsible=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="90" width="700" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="legend">
+          <mxGeometry x="20" y="45" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1t" value="Users / request path" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="legend">
+          <mxGeometry x="55" y="45" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;fillColor=#e6d0de;strokeColor=#996185;" vertex="1" parent="legend">
+          <mxGeometry x="230" y="45" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2t" value="Clerk identity" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="legend">
+          <mxGeometry x="265" y="45" width="120" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="legend">
+          <mxGeometry x="400" y="45" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3t" value="Vercel / Next.js" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="legend">
+          <mxGeometry x="435" y="45" width="120" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="legend">
+          <mxGeometry x="560" y="45" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4t" value="Cloudflare R2" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="legend">
+          <mxGeometry x="595" y="45" width="90" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg-notes" value="• Dash (Python WSGI) is not hosted on Vercel — strangler migrates charts to Next.js / Plotly.js modules.&#xa;• Lazy load: each dashboard fetches only its datasets from curated/ — no process-wide CSV dump.&#xa;• UK-leaning: Vercel lhr1 + R2 EU jurisdiction + Clerk residency settings (see docs/security.md)." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=11;fontColor=#555555;whiteSpace=wrap;" vertex="1" parent="legend">
+          <mxGeometry x="20" y="90" width="660" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="footer" value="Source: docs/architecture.md — Assessment deliverable 1 (system design)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="900" width="500" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

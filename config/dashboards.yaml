@@ -1,0 +1,28 @@
+# Dashboard catalogue — IDs align with the legacy Dash sample permissions.
+dashboards:
+  - id: customer_analytics
+    title: Customer Analytics
+    description: Customer demographics, spend, and order patterns.
+    path: /dashboards/customer-analytics
+    required_permission: customer_analytics
+    datasets:
+      - customer_data
+    status: migrated
+
+  - id: sales_dashboard
+    title: Sales Dashboard
+    description: Regional sales performance and product revenue.
+    path: /dashboards/sales-dashboard
+    required_permission: sales_dashboard
+    datasets:
+      - sales_data
+    status: not_migrated
+
+  - id: financial_reports
+    title: Financial Reports
+    description: Revenue, expenses, profit vs budget.
+    path: /dashboards/financial-reports
+    required_permission: financial_reports
+    datasets:
+      - financial_data
+    status: not_migrated
