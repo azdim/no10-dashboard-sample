@@ -34,11 +34,20 @@ async function readLocalCsv(localPath: string): Promise<string> {
 }
 
 function createR2Client(): S3Client {
-  const endpoint =
+  // Strip trailing slash and accidental /bucket suffix from dashboard copy-paste.
+  let endpoint =
     process.env.R2_ENDPOINT ||
     (process.env.R2_ACCOUNT_ID
       ? `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`
       : undefined);
+
+  if (endpoint) {
+    endpoint = endpoint.replace(/\/+$/, "");
+    const bucket = process.env.R2_BUCKET;
+    if (bucket && endpoint.endsWith(`/${bucket}`)) {
+      endpoint = endpoint.slice(0, -(bucket.length + 1));
+    }
+  }
 
   if (
     !endpoint ||
@@ -47,13 +56,15 @@ function createR2Client(): S3Client {
     !process.env.R2_BUCKET
   ) {
     throw new Error(
-      "R2 is not configured. Set R2_ENDPOINT (or R2_ACCOUNT_ID), R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, and R2_BUCKET.",
+      "R2 is not configured. Set R2_ENDPOINT (EU example: https://<ACCOUNT_ID>.eu.r2.cloudflarestorage.com — no /bucket), R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, and R2_BUCKET.",
     );
   }
 
   return new S3Client({
     region: process.env.AWS_REGION || "auto",
     endpoint,
+    // Path-style avoids virtual-host quirks with some R2 + SDK combos.
+    forcePathStyle: true,
     credentials: {
       accessKeyId: process.env.R2_ACCESS_KEY_ID,
       secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
@@ -83,14 +94,25 @@ async function streamToString(
 }
 
 async function readR2Csv(r2Key: string): Promise<string> {
+  const bucket = process.env.R2_BUCKET!;
   const client = createR2Client();
-  const result = await client.send(
-    new GetObjectCommand({
-      Bucket: process.env.R2_BUCKET,
-      Key: r2Key,
-    }),
-  );
-  return streamToString(result.Body as AsyncIterable<Uint8Array>);
+  try {
+    const result = await client.send(
+      new GetObjectCommand({
+        Bucket: bucket,
+        Key: r2Key,
+      }),
+    );
+    return streamToString(result.Body as AsyncIterable<Uint8Array>);
+  } catch (err) {
+    const aws = err as { name?: string; Code?: string; message?: string };
+    const code = aws.name || aws.Code || "R2Error";
+    throw new Error(
+      `${code} reading s3://${bucket}/${r2Key}. ` +
+        `Check R2_BUCKET, object key, and that the API token has Object Read on this bucket. ` +
+        `(${aws.message ?? "no message"})`,
+    );
+  }
 }
 
 /**
