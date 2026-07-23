@@ -105,8 +105,16 @@ Parts C–F (upload pipeline, full strangler, decommission) are **out of scope**
 | Setting | Value |
 |---------|--------|
 | Root Directory | `portal` |
-| Framework | Next.js (auto) |
+| Framework Preset | **Next.js** (not Python) |
 | Build / Install | defaults (`npm run build` / `npm install`) |
+
+If the build says `No python entrypoint found` or `app.app:app`, the project is still on the **Python** preset (triggered by root `requirements.txt` / `app/`). Fix:
+
+1. **Settings → General → Root Directory** → `portal` → Save
+2. **Settings → General → Framework Preset** → **Next.js** (clear Python)
+3. Redeploy
+
+`portal/vercel.json` sets `"framework": "nextjs"` so the preset stays Next.js once Root Directory is `portal`.
 
 ### 2. Environment variables (Production)
 
@@ -134,11 +142,13 @@ Optional smoke test without R2: `DATA_SOURCE=local` and `DATA_ROOT=../data` (sam
 
 ### 4. R2 objects (when `DATA_SOURCE=r2`)
 
-Upload keys matching [`config/datasets.yaml`](config/datasets.yaml):
+Upload keys matching [`config/datasets.yaml`](config/datasets.yaml) (object path inside the bucket — not the bucket name):
 
-- `curated/customer/customer_data.csv`
-- `curated/sales/sales_data.csv`
-- `curated/financial/financial_data.csv`
+- `data/customer_data.csv`
+- `data/sales_data.csv`
+- `data/financial_data.csv`
+
+Example: bucket `no10assesment` + key `data/customer_data.csv`.
 
 ### 5. Deploy
 
